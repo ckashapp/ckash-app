@@ -22,8 +22,8 @@ const App = createApp({
       : expoConfig.scheme
     : 'example',
   divviProtocol: {
-    protocolIds: ['celo'],
-    referrerId: 'cKash',
+    // TODO: add your divvi identifier here.
+    divviId: '0x0000000000000000000000000000000000000000',
   },
   features: {
     cloudBackup: true,
