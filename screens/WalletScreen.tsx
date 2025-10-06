@@ -17,6 +17,7 @@ import SimpleDropdown from '../components/ui/SimpleDropdown'
 
 import HideBalance from '../assets/icons/hidebalance-Icon.svg'
 import IconButton from '../components/ui/IconButton'
+import ClickableHeader from '../components/ui/ClickableHeader'
 import tw from 'twrnc'
 
 import { calculateTotalUsdValue } from '../lib/cKash'
@@ -237,19 +238,11 @@ export default function WalletScreen(
         {/* Services */}
         <View style={tw`flex-1.5 w-[90%] bg-transparent justify-center pb-4`}>
           <View style={tw`flex flex-col justify-start pt-2 pb-2`}>
-            <Text
-              style={{
-                paddingTop: 24,
-                paddingBottom: 8,
-                textAlign: 'left',
-                alignSelf: 'flex-start',
-                fontFamily: 'Heebo-Medium',
-                fontSize: 16,
-                color: '#1B1A46',
-              }}
-            >
-              Quick Utilities
-            </Text>
+            <ClickableHeader
+              title="Quick Utilities"
+              actionText="Transaction History"
+              onPress={() => navigate('TransactionHistory')}
+            />
             <View style={tw`flex-row flex-wrap gap-2.5`}>
               {(services?.[country] || []).map((item) => (
                 <ServiceButton

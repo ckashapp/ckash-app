@@ -39,6 +39,8 @@ import ContactForm from './screens/help/ContactForm'
 import HelpScreen from './screens/help/HelpScreen'
 import CommunityScreen from './screens/help/CommunityScreen'
 import ReferEarnScreen from './screens/help/ReferEarnScreen'
+import TransactionHistoryScreen from './screens/TransactionHistoryScreen'
+import TransactionDetailsScreen from './screens/PaymentSuccessScreen'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { RootStackScreenProps } from './screens/types'
@@ -299,6 +301,32 @@ const App = createApp({
         >
           {(props: React.JSX.IntrinsicAttributes & RootStackScreenProps<"ReferEarn">) => (
             <ReferEarnScreen {...props} />
+          )}
+        </Screen>
+
+        <Screen
+          name="TransactionHistory"
+          options={{
+            headerBackVisible: true,
+            headerShown: true,
+            headerTitle: 'Transaction History',
+          }}
+        >
+          {(props: React.JSX.IntrinsicAttributes & RootStackScreenProps<"TransactionHistory">) => (
+            <TransactionHistoryScreen {...props} />
+          )}
+        </Screen>
+
+        <Screen
+          name="TransactionDetails"
+          options={{
+            headerBackVisible: true,
+            headerShown: true,
+            headerTitle: 'Transaction Details',
+          }}
+        >
+          {(props: React.JSX.IntrinsicAttributes & RootStackScreenProps<"TransactionDetails">) => (
+            <TransactionDetailsScreen {...props} />
           )}
         </Screen>
       </>
