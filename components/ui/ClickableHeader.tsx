@@ -26,12 +26,12 @@ export default function ClickableHeader({
       <Text
         style={[
           {
-            paddingTop: 24,
+            paddingTop: 16,
             paddingBottom: 8,
             textAlign: 'left',
             alignSelf: 'flex-start',
             fontFamily: 'Heebo-Medium',
-            fontSize: 16,
+            fontSize: 14,
             color: '#1B1A46',
           },
           titleStyle,
