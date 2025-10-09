@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import React, { useRef } from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import { RootStackScreenProps } from './types'
 import { colors } from '../utils'
 import SuccessIcon from '../assets/icons/success-icon.svg'
@@ -8,6 +8,8 @@ import CopyIcon from '../assets/icons/copy-icon.svg'
 import PrimaryButton from '../components/PrimaryButton'
 import SecondaryButton from '../components/ui/SecondaryButton'
 import { formatDate } from '../lib/date'
+import { ShareOptionsBottomSheet } from '../components/ShareOptionsBottomSheet'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
 
 interface TransactionDetails {
   id: string;
@@ -25,6 +27,7 @@ interface TransactionDetails {
 
 const TransactionDetailsScreen: React.FC<Readonly<RootStackScreenProps<'TransactionDetails'>>> = ({ route, navigation }) => {
   const { transaction }: { transaction: TransactionDetails } = route.params
+  const shareBottomSheetRef = useRef<BottomSheetModal>(null)
 
   const handleCopyReceipt = () => {
     // Implement copy to clipboard functionality
@@ -37,12 +40,12 @@ const TransactionDetailsScreen: React.FC<Readonly<RootStackScreenProps<'Transact
   }
 
   const handleShareReceipt = () => {
-    // Implement share functionality
-    Alert.alert('Share', 'Share receipt functionality')
+    shareBottomSheetRef.current?.present()
   }
 
   const handleBackToHome = () => {
-    navigation.navigate('CustomWallet')
+
+    navigation.navigate('Wallet')
   }
 
   const receiptNumber = '000085752257'
@@ -59,7 +62,11 @@ const TransactionDetailsScreen: React.FC<Readonly<RootStackScreenProps<'Transact
 
 
   return (
-    <View style={styles.container}>
+    <ScrollView 
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+      showsVerticalScrollIndicator={false}
+    >
       {/* Status Icon and Title */}
       <View style={styles.statusSection}>
         <View style={styles.statusIconContainer}>
@@ -139,19 +146,23 @@ const TransactionDetailsScreen: React.FC<Readonly<RootStackScreenProps<'Transact
 
       {/* Action Buttons */}
       <View style={styles.buttonContainer}>
-        {transaction.status === "COMPLETE"  && (
-          <SecondaryButton
-            label="Share Receipt"
-            onPress={handleShareReceipt}
-          />
-        )}
+        <SecondaryButton
+          label="Share Receipt"
+          onPress={handleShareReceipt}
+        />
         
-        {/* <PrimaryButton
-          label={transaction.status === "COMPLETE"  ? "Back to Home" : "Try Again"}
+        <PrimaryButton
+          label="Back to Home"
           onPress={handleBackToHome}
-        /> */}
+        />
       </View>
-    </View>
+
+      {/* Share Options Bottom Sheet */}
+      <ShareOptionsBottomSheet
+        forwardedRef={shareBottomSheetRef}
+        transaction={transaction}
+      />
+    </ScrollView>
   )
 }
 
@@ -159,8 +170,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F8FAFF',
+  },
+  contentContainer: {
     paddingHorizontal: 20,
     paddingTop: 60,
+    paddingBottom: 40,
   },
   statusSection: {
     alignItems: 'center',

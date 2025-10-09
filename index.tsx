@@ -326,7 +326,9 @@ const App = createApp({
           }}
         >
           {(props: React.JSX.IntrinsicAttributes & RootStackScreenProps<"TransactionDetails">) => (
-            <TransactionDetailsScreen {...props} />
+            <BottomSheetModalProvider>
+              <TransactionDetailsScreen {...props} />
+            </BottomSheetModalProvider>
           )}
         </Screen>
       </>
