@@ -154,3 +154,19 @@ user: {
  updated_at: string
 }
 }
+
+
+//offchain transactions
+export interface OffchainTransaction {
+  id: string;
+  status: string; // e.g. "COMPLETE"
+  transactionCode: string;
+  receiptNumber: string;
+  publicName: string;
+  mobileNetwork: string,
+  amount:string,
+  message: string;
+  userAddress: `0x${string}`;
+  createdAt: string; 
+  updatedAt: string; 
+}

@@ -86,7 +86,7 @@ class Pretium {
       account_name: makepayment.account_name,
       bank_code: makepayment.bank_code,
       bank_name: makepayment.bank_name,
-      callback_url: `${REFERRAL_BASE_URL}api/v1/ckash/callback/${makepayment.userAddress}`,
+      callback_url: `${REFERRAL_BASE_URL}api/v1/ckash/callback/${makepayment.userAddress}/${makepayment.amount}/${makepayment.mobile_network}`,
       userAddress:makepayment.userAddress
     }
     console.log("THE PAYLOAD",payload)
@@ -193,6 +193,25 @@ class CkashReferral{
     }
     const url = `${this.baseURL}api/v1/referral/claim`
     const response = await fetch(url, requestOptions)
+    const data = await response.json()
+    return data
+    
+  }
+
+  ///transactions?userAddress=0x123&page=1&limit=10
+
+  offchainTransactions= async (address:`0x${string}`) => {
+    const payload = {
+      userAddress: address      
+    }
+    const requestOptions = {
+      method: 'GET' as const,
+      headers: this.getHeaders(),
+      // body: JSON.stringify(payload),
+    }
+    const url = `${this.baseURL}api/v1/ckash/transactions?userAddress=${address}&page=1&limit=10`
+    const response = await fetch(url, requestOptions)
+    console.log("The Response data",response)
     const data = await response.json()
     return data
     

@@ -3,6 +3,7 @@ import { useSendTransactionStable } from './useSendTransactionStable'
 import { PRETIUM_ADDRESS, Pretium_api } from '../constants/constant'
 import { TokenBalance } from '@divvi/mobile/src/tokens/slice'
 import { CountryCodes, PaymentType } from '../api/types'
+import { getWalletClient, useWalletClient } from 'src/public'
 
 type MobileNetwork = 'Safaricom' | 'MTN' | 'Airtel' | 'AirtelTigo' | 'Telcel' 
 
@@ -34,7 +35,8 @@ export const useSend = () => {
   const [loading, setLoading] = useState(false)
   const [isError, setIsError] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const { sendStableToken,error:txError } = useSendTransactionStable()
+  const { sendStableToken, error: txError } = useSendTransactionStable()
+  
 
   const sendMoney = async ({
      shortcode,

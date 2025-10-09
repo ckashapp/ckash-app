@@ -1,4 +1,5 @@
 import {
+  Client,
   encodeFunctionData,
   erc20Abi,
   Hex,
@@ -7,14 +8,16 @@ import {
   TransactionRequestEIP1559,
 } from 'viem'
 // import { TransactionRequest } from '@divvi/mobile/src/viem/prepareTransactions'
-import { PreparedTransactionsPossible } from '@divvi/mobile'
+import { getWalletClient, PreparedTransactionsPossible } from '@divvi/mobile'
 import { celo } from 'viem/chains'
 import { CHAIN_ID, cKASH_DIVVI_ID, PRETIUM_ADDRESS, USDT_CAMPAIGN } from '../constants/constant'
 import { Pretium_api } from '../constants/constant'
 import { TokenBalance } from '@divvi/mobile/src/tokens/slice'
 
+import { TransactionRequest } from '@divvi/mobile/src/viem/prepareTransactions'
+import { estimateFeesPerGas} from '@divvi/mobile/src/viem/estimateFeesPerGas'
 
-import { TransactionRequestCIP64 } from 'viem/chains'
+
 import {
   //   usePublicClient,
   //   useWallet,
@@ -40,15 +43,16 @@ export interface SendTransactionProp {
   feeCurrency: `0x${string}`
   tokenDecimal?: number
   tokenBalance: TokenBalance
+  
 }
 
-export type TransactionRequest = (
-  | TransactionRequestCIP64
-  | TransactionRequestEIP1559
-) & {
-  _estimatedGasUse?: bigint
-  _baseFeePerGas?: bigint
-}
+// export type TransactionRequest = (
+//   | TransactionRequestCIP64
+//   | TransactionRequestEIP1559
+// ) & {
+//   _estimatedGasUse?: bigint
+//   _baseFeePerGas?: bigint
+// }
 
 export const sendTransactionStable = async (send: SendTransactionProp) => {
   let decimal = send.tokenDecimal ? send.tokenDecimal : 18
@@ -58,10 +62,13 @@ export const sendTransactionStable = async (send: SendTransactionProp) => {
     consumer: cKASH_DIVVI_ID,
     providers:[USDT_CAMPAIGN]
   })
+  const client = await getWalletClient({networkId:"celo-mainnet"})
+  const result = await estimateFeesPerGas(client as Client, send.feeCurrency)
+  //console.log("THE RESULTSSSSS",result)
   
   const transactionsrequest:TransactionRequest = {
     from: send.from,
-    type: send.type as any,
+   type: send.type as any,
     to: send.to,
     data: encodeFunctionData({
       abi: erc20Abi,
@@ -70,12 +77,15 @@ export const sendTransactionStable = async (send: SendTransactionProp) => {
     })+referralTag as Hex,
 
     feeCurrency: send.feeCurrency,   
-    gas: BigInt(100000),
-    maxFeePerGas: BigInt(10000000000),
+   gas: BigInt(100000),
+    maxFeePerGas:result.maxFeePerGas  //BigInt(100000000000),
     //  maxPriorityFeePerGas: BigInt(10000000000),
     //   _estimatedGasUse: BigInt(20000000),
     //   _baseFeePerGas: BigInt(200000000),
   }
+
+  
+  
 
   try {
     const unlockResult =await unlockAccount()   // to remove on next iteration
@@ -290,6 +300,7 @@ export function calculateTotalUsdValue(
   }, 0)
   return parseFloat(totalValueInUsd.toFixed(4))
 }
+
 
 // export const sendTransactionStable = async (send: SendTransactionProp) => {
 //   let decimal = send.tokenDecimal ? send.tokenDecimal : 18

@@ -17,6 +17,23 @@ type RootStackParamList = StackParamList & {
   Community: undefined
   ContactForm: undefined
   ReferEarn: { code?: string }
+  TransactionHistory: undefined
+  TransactionDetails: {
+    transaction: {
+      id: string;
+  status: string; // e.g. "COMPLETE"
+  transactionCode: string;
+  receiptNumber?: string;
+      publicName?: string;
+      mobileNetwork?: string,
+  amount:string,
+  message?: string;
+  userAddress?: `0x${string}`;
+  createdAt: string; 
+  updatedAt: string; 
+      
+    }
+  }
 }
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =

@@ -93,10 +93,27 @@ const useCkashReferral = () => {
     }
   }, [referralApi])
 
+
+  //offchain Transactions
+
+  const userOffchainTransactions = useCallback(async (address: `0x${string}`) => {
+    setError(null)
+    setLoading(true)
+    try {
+      return await referralApi.offchainTransactions(address)
+    } catch (err: any) {
+      setError(err?.message || "Failed to get transactions")
+      throw err
+    } finally {
+      setLoading(false)
+    }
+  }, [referralApi])
+
   return {
     createReferralCode,
     getUserReferralCode,
     claimReferralCode,
+    userOffchainTransactions,
     error,
     loading,
     clearError: () => setError(null)
