@@ -36,6 +36,7 @@ const TransactionDetailsScreen: React.FC<Readonly<RootStackScreenProps<'Transact
 
   const handleCopyTransactionCode = () => {
     // Implement copy to clipboard functionality
+    
     Alert.alert('Copied', 'Transaction code copied to clipboard')
   }
 
@@ -47,12 +48,7 @@ const TransactionDetailsScreen: React.FC<Readonly<RootStackScreenProps<'Transact
 
     navigation.navigate('Wallet')
   }
-
-  const receiptNumber = '000085752257'
-  const transactionCode = '547r3dsts53...455'
-  const paymentTime = 'Oct 1 2025, 13:22:16'
-
-  const isSuccess = transaction.status === 'success'
+  
   const StatusIcon =
   transaction.status === "COMPLETE"
     ? SuccessIcon

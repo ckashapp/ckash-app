@@ -114,14 +114,14 @@ export default function TransactionHistoryScreen(
       
       const result = await userOffchainTransactions(address as `0x${string}`);
       if (result?.success) { 
-        console.log("Results", result.transactions?.transactions);
+        //console.log("Results", result.transactions?.transactions);
         setTransactions(result.transactions?.transactions as OffchainTransaction[] || []);
       } else {
         setTransactions([]);
       }
       
     } catch (error) {
-      console.error("Error fetching transactions:", error);
+      //console.error("Error fetching transactions:", error);
       setHasError(true);
       setTransactions([]);
     } finally {
