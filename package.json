@@ -1,6 +1,6 @@
 {
   "name": "ckash",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "engines": {
     "node": "^20"
   },
@@ -71,8 +71,7 @@
     "react-native-contacts": "https://github.com/valora-inc/react-native-contacts#9940121",
     "react-native-device-info": "^13.2.0",
     "react-native-dotenv": "^3.4.11",
-    "react-native-dropdown-picker": "^5.4.6",
-    "react-native-fast-image": "^8.6.3",
+    "react-native-dropdown-picker": "^5.4.6",    
     "react-native-gesture-handler": "^2.23.1",
     "react-native-haptic-feedback": "^2.3.3",
     "react-native-in-app-review": "^4.3.3",

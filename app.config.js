@@ -10,8 +10,7 @@ export default ({ config }) => ({
       ZENDESK_EMAIL:process.env.ZENDESK_EMAIL,
       ZENDESK_BASE_URL: process.env.ZENDESK_BASE_URL,
       REFERRAL_KEY: process.env.REFERRAL_KEY,
-      REFERRAL_BASE_URL: process.env.REFERRAL_BASE_URL,
-      CKASH_CAll_BACK: process.env.CKASH_CAll_BACK,
+      REFERRAL_BASE_URL: process.env.REFERRAL_BASE_URL,      
       SEGMENT_API:process.env.SEGMENT_API
       
 
