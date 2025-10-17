@@ -2,7 +2,7 @@
   "name": "cKash",
   "slug": "ckash",
   "scheme": "ckash",
-  "version": "1.0.3",
+  "version": "1.1.4",
   "orientation": "portrait",
   "icon": "./assets/icon.png",
   "userInterfaceStyle": "light",
