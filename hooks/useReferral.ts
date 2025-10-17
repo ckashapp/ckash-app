@@ -65,6 +65,33 @@ const useCkashReferral = () => {
     }
   }, [referralApi])
 
+  //device ID
+  const getDeviceId = useCallback(async () => {
+    setError(null)
+    setLoading(true)
+    try {
+      return await referralApi.getId()
+    } catch (err: any) {
+      setError(err?.message || "Failed toget Id")
+      throw err
+    } finally {
+      setLoading(false)
+    }
+  }, [referralApi])
+
+  const referralCount = useCallback(async (address: `0x${string}`) => {
+    setError(null)
+    setLoading(true)
+    try {
+      return await referralApi.userReferralCount(address)
+    } catch (err: any) {
+      setError(err?.message || "Failed toget Id")
+      throw err
+    } finally {
+      setLoading(false)
+    }
+  }, [referralApi])
+
   // ✅ Get User Referral Code
   const getUserReferralCode = useCallback(async (address: `0x${string}`) => {
     setError(null)
@@ -113,6 +140,8 @@ const useCkashReferral = () => {
     createReferralCode,
     getUserReferralCode,
     claimReferralCode,
+    getDeviceId,
+    referralCount,
     userOffchainTransactions,
     error,
     loading,

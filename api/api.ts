@@ -1,4 +1,5 @@
-import { CKASH_CAll_BACK, REFERRAL_BASE_URL } from '../constants/constant'
+import { REFERRAL_BASE_URL } from '../constants/constant'
+import { DeviceInfoType, getDeviceInfo } from '../lib/device'
 import { ACCOUNTVALIDATION, MAKEPAYMENT, REFUND } from './types'
 
 class Pretium {
@@ -134,11 +135,20 @@ class Pretium {
 class CkashReferral{
   api_key: string
   baseURL: string
+  deviceInfo: DeviceInfoType | undefined
 
   constructor(api_Key: string, baseURL: string) {
     this.api_key = api_Key
     this.baseURL = baseURL
+    
   }
+
+  async getId(): Promise<string> {
+  if (!this.deviceInfo) {
+    this.deviceInfo = await getDeviceInfo()
+  }
+  return this.deviceInfo.UniqueID
+}
 
   getHeaders = () => {
     const requestHeaders: HeadersInit = new Headers()
@@ -149,8 +159,10 @@ class CkashReferral{
   }
 
   createReferralCode = async (address: `0x${string}`) => {
+    const UniqueID = await this.getId()
     const payload = {
-      userAddress: address
+      userAddress: address,
+      deviceId:UniqueID
     }
     console.log("The payload for referral",payload)
     const requestOptions = {
@@ -181,10 +193,27 @@ class CkashReferral{
     
   }
 
-  claimReferralCode = async (address:`0x${string}`,code:string) => {
+  userReferralCount = async (address: `0x${string}`) => {
+    
+    const requestOptions = {
+      method: 'GET' as const,
+      headers: this.getHeaders()
+     
+    }
+    const url = `${this.baseURL}api/v1/referral/${address}/referrals`
+    const response = await fetch(url, requestOptions)
+    const data = await response.json()
+    console.log("The data the result",data)
+    return data
+    
+  }
+
+  claimReferralCode = async (address: `0x${string}`, code: string) => {
+    const UniqueID = await this.getId()
     const payload = {
       userAddress: address,
-      code:code
+      code: code,
+      deviceId:UniqueID
     }
     const requestOptions = {
       method: 'POST' as const,

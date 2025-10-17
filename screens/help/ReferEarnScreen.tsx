@@ -31,6 +31,7 @@ import tw from 'twrnc'
 export default function ReferEarnScreen({ navigation }: Readonly<RootStackScreenProps<'ReferEarn'>>) {
   const [manualCode, setManualCode] = useState<string>('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [referCount,setReferCount] = useState(0)
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState<string>('');
   const [creating, setCreating] = useState(false);
@@ -49,7 +50,7 @@ export default function ReferEarnScreen({ navigation }: Readonly<RootStackScreen
   //console.log("THE STATES", referralCode, referralLink)
 
   // API hooks
-  const { getUserReferralCode, claimReferralCode, createReferralCode, error } = useCkashReferral();
+  const { getUserReferralCode, claimReferralCode, createReferralCode,referralCount, error } = useCkashReferral();
   const { data: walletClient } = useWalletClient({ networkId: 'celo-mainnet' });
   const address = walletClient?.account?.address;
 
@@ -66,8 +67,13 @@ export default function ReferEarnScreen({ navigation }: Readonly<RootStackScreen
   useEffect(() => {    
     if (!hydrated) return;
   
-    const fetchReferralCode = async () => {
+    const fetchReferralCode = async () => {      
       if (!address) return;
+      const result = await referralCount(address)
+      console.log("The result",result?.data?.count)
+      if (result?.count !== undefined) {
+        setReferCount(result?.data?.count)
+      }
       if (userAddress?.toLowerCase() === address.toLowerCase()) {
         setLoading(false);
         return;
@@ -92,7 +98,7 @@ export default function ReferEarnScreen({ navigation }: Readonly<RootStackScreen
       } finally {
         setLoading(false);
       }
-    };
+    };   
   
     fetchReferralCode();
   }, [hydrated, address]);
@@ -203,8 +209,13 @@ export default function ReferEarnScreen({ navigation }: Readonly<RootStackScreen
             
           /> */}
             
-          <View style={styles.section}>
-            <Text style={styles.sectionLabel}>Invite via (Referral Code)</Text>
+            <View style={styles.section}>
+              <View style={styles.countSection}>
+                <Text style={styles.sectionLabel}>Invite via (Referral Code) </Text>
+                <Text style={styles.sectionLabel}> Referrals: {referCount }</Text>
+
+              </View>
+             
             <CopyableField label="My Referral Code" value={referralCode} onCopy={handleCopyCode} />
           </View>
 
@@ -275,6 +286,7 @@ const styles = StyleSheet.create({
   header: { alignItems: 'flex-start', marginBottom: 8 },
   subtitle: { fontSize: 16, color: colors.contentSecondary, textAlign: 'left', lineHeight: 22 },
   section: { marginBottom: 24 },
+  countSection:{flexDirection:"row",gap:8},
   sectionLabel: { fontSize: 16, fontWeight: '600', color: colors.contentPrimary, marginBottom: 12 },
   input: { borderWidth: 1, borderColor: '#ddd', borderRadius: 8, padding: 10, fontSize: 16, marginBottom: 12, color: colors.contentPrimary },
   createButton: { backgroundColor: colors.contentPrimary, paddingVertical: 12, paddingHorizontal: 20, borderRadius: 8, alignItems: 'center' },
