@@ -71,9 +71,10 @@ export default function ReferEarnScreen({ navigation }: Readonly<RootStackScreen
       if (!address) return;
       const result = await referralCount(address)
       console.log("The result",result?.data?.count)
-      if (result?.count !== undefined) {
-        setReferCount(result?.data?.count)
+      if (result?.data?.count !== undefined) {
+        setReferCount(result.data.count)
       }
+      
       if (userAddress?.toLowerCase() === address.toLowerCase()) {
         setLoading(false);
         return;
