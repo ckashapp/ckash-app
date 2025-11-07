@@ -376,7 +376,7 @@ const App = createApp({
     },
     hideCashInTokenFilters: true,
     disableNfts: true,
-    showPositions: false,
+    showPositions: true,
     showImportTokensFlow: false,
     showSwapTokenFilters: false,
     enableSwapAppFee: false

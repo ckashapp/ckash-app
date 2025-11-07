@@ -9,7 +9,7 @@
     "prebuild": "expo prebuild --clean",
     "start": "expo start",
     "android": "expo run:android",
-    "ios": "expo run:ios",
+    "ios": "ENVFILE=.env expo run:ios",
     "build-android-apk": "eas build --platform android --profile  preview ",
     "build-android-aab-prod": "eas build --platform android --profile production",
     "typecheck": "tsc --noEmit",

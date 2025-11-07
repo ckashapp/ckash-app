@@ -53,6 +53,9 @@
           "useFrameworks": "static"
         },
         "android": {
+          "compileSdkVersion": 35,
+          "targetSdkVersion": 35,
+          "minSdkVersion": 24,
           "extraMavenRepos": ["https://sdk.withpersona.com/android/releases"]
         }
       }
